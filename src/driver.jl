@@ -7,7 +7,8 @@
 The routine does not at the moment do any error checking - all sizes 
 assumed to be identical. This is easy to add however.
 """
-function combine_cubes(cubefiles::Vector{String}, method::String; outfile="combined.fits")
+function combine_cubes(cubefiles::Vector{String}, method::String; outfile="combined.fits",
+                       verbose=false)
 
     #
     # Initial steps - get the number of files and the
@@ -29,6 +30,9 @@ function combine_cubes(cubefiles::Vector{String}, method::String; outfile="combi
     
     for iz=1:n_l
 
+        if verbose
+            println("Doing slice I=$iz")
+        end
         # First load this slice level
         stack = read_stack(cubefiles, "DATA", iz, n_x, n_y)
 

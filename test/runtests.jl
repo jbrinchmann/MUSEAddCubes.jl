@@ -10,7 +10,9 @@ using Test
 
     # Test the impact of NaNs
     m, ma = MUSEAddCubes.median_stack([1.0,2,3, NaN, 10.0, 1.0])
-
     @test m == 2.0
+
+    m, ma = MUSEAddCubes.median_stack([NaN, NaN])
+    @test isnan(m)
 
 end

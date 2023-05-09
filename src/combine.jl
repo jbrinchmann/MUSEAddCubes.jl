@@ -12,8 +12,14 @@ function median_stack(x::Array{Float64,1})
 
     # Do the statistics - filter out NaNs
     sx = filter(!isnan, x)
-    med = median(sx)
-    MAD = mad(sx; center=med, normalize=true)
+    N_ok = length(sx)
+    
+    med = NaN
+    MAD = NaN
+    if N_ok > 0
+        med = median(sx)
+        MAD = mad(sx; center=med, normalize=true)
+    end    
 
     return med, MAD
 end
@@ -28,9 +34,13 @@ function mean_stack(x::Array{Float64,1})
 
     # Do the statistics
     sx = filter(!isnan, x)
-    μ = mean(sx)
-    σ = std(sx, mean=μ)
+    N_ok = length(sx)
 
+    if N_ok > 0
+        μ = mean(sx)
+        σ = std(sx, mean=μ)
+    end
+    
     return μ, σ
 end
 

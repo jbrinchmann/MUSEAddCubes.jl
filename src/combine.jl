@@ -10,8 +10,8 @@ This calculates both the median and median absolute deviation
 """
 function median_stack(x::Array{Float64,1})
 
-    # Do the statistics
-    sx = skipmissing(x)
+    # Do the statistics - filter out NaNs
+    sx = filter(!isnan, x)
     med = median(sx)
     MAD = mad(sx; center=med, normalize=true)
 
@@ -27,7 +27,7 @@ This calculates both the mean and standard deviation
 function mean_stack(x::Array{Float64,1})
 
     # Do the statistics
-    sx = skipmissing(x)
+    sx = filter(!isnan, x)
     μ = mean(sx)
     σ = std(sx, mean=μ)
 

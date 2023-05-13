@@ -93,21 +93,36 @@ end
 
 
 
+"""Output files"""
+function save_files(outdir::String, cube::Array{Float64,3},
+                    dcube::Array{Float64,3}, Ncube::Array{Float64,3},
+                    headers::Dict)
 
-function save_file(outfile::String, cube::Array{Float64,3},
-                   dcube::Array{Float64,3}, headers::Dict)
 
-    println(headers["Primary"])
+    # Store the three datasets
+    save_file(joinpath(outdir, "DATACUBE_COMBINED.fits"),
+              cube, headers["Primary"], headers["Data"], "DATA")
+    save_file(joinpath(outdir, "DATACUBE_PROPERR.fits"),
+              dcube, headers["Primary"], headers["Stat"], "STAT")
+    save_file(joinpath(outdir, "NEXPCUBE.fits"),
+              Ncube, headers["Primary"], headers["Data"], "NEXPCUBE")
+
+
+end
+
+
+"""save_file(outfile, x, header)
+
+Output one file - this is primarily a helper routine
+"""
+function save_file(outfile::String, x::Array{Float64,3}, primary_header, header,
+                   extname::String)
+
     
     FITS(outfile, "w") do f
         fits_create_empty_hdu(f.fitsfile)
-        FITSIO.fits_write_header(f.fitsfile, headers["Primary"], true)
-#        write(f, nothing; header=headers["Primary"])
-        write(f, cube; header=headers["Data"], name="DATA")
-        write(f, dcube; header=headers["Stat"], name="STAT")
-
+        FITSIO.fits_write_header(f.fitsfile, primary_header, true)
+        write(f, x; header=header, name=extname)
     end
     
-
-
 end

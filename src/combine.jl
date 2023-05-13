@@ -95,7 +95,7 @@ function flatten_stack(c::Array{Float64,3}, method::String)
     # Create the result arrays.
     m = zeros(nx, ny)
     σm = zeros(nx, ny)
-    N_exp = zeros(Int, nx, ny)
+    N_exp = zeros(nx, ny)
 
     for i=1:nx
         for j=1:ny
@@ -108,6 +108,6 @@ function flatten_stack(c::Array{Float64,3}, method::String)
         end
     end
 
-    return m, σm
+    return m, σm, N_exp
     
 end

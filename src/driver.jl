@@ -2,6 +2,9 @@
 # The code that drives the co-addition.
 #
 
+
+using ProgressMeter
+
 """Given a list of FITS file names, combine these
 
 The routine does not at the moment do any error checking - all sizes 
@@ -28,7 +31,7 @@ function combine_cubes(cubefiles::Vector{String}, method::String, outdir::String
     dcube = zeros(n_x, n_y, n_l)
     Ncube = zeros(n_x, n_y, n_l)
     
-    for iz=1:n_l
+    @showprogress 1 for iz=1:n_l
 
         if verbose
             println("Doing slice I=$iz")
